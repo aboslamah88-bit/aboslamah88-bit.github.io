@@ -167,3 +167,6 @@ html[dir=ltr] .game-visual::after{background:linear-gradient(90deg,var(--g-bg),t
   .about{padding:26px}.mark small{display:none}
 }
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
+/* Keep logos and icons at their natural aspect ratio */
+img{height:auto}
+.art .seal{aspect-ratio:1;object-fit:contain}
