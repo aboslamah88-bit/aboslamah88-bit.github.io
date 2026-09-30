@@ -170,3 +170,6 @@ html[dir=ltr] .game-visual::after{background:linear-gradient(90deg,var(--g-bg),t
 /* Keep logos and icons at their natural aspect ratio */
 img{height:auto}
 .art .seal{aspect-ratio:1;object-fit:contain}
+/* Keep the halftone portrait inside its arched frame */
+.art .dots{top:4%;right:0;bottom:auto;left:8%;width:92%;height:88%;border-radius:220px 220px 26px 26px;overflow:hidden}
+html[dir=ltr] .art .dots{left:8%;right:auto}
