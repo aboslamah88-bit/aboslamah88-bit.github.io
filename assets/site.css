@@ -78,6 +78,7 @@ section{padding:80px 0}
 
 /* Game card — each game keeps its own palette inside the studio frame */
 .game{--g-bg:#101c24;--g-acc:#d4fb69;--g-txt:#eff5f2;position:relative;display:grid;grid-template-columns:1.05fr .95fr;border-radius:32px;overflow:hidden;background:var(--g-bg);color:var(--g-txt);box-shadow:0 30px 80px rgba(0,0,0,.45),0 0 0 1px rgba(255,255,255,.06)}
+#games .game + .game{margin-block-start:clamp(28px,4vw,48px)}
 .game-info{padding:44px;display:flex;flex-direction:column;gap:18px;position:relative;z-index:1}
 .game-title{display:flex;align-items:center;gap:16px}
 .game-title img{width:80px;height:80px;border-radius:20px;box-shadow:0 8px 24px rgba(0,0,0,.45)}
@@ -137,7 +138,7 @@ html[dir=ltr] .game-visual::after{background:linear-gradient(90deg,var(--g-bg),t
 /* About */
 .about{display:grid;grid-template-columns:.8fr 1.2fr;gap:40px;align-items:center;background:linear-gradient(135deg,rgba(217,168,78,.10),rgba(217,168,78,.02));border:1px solid var(--line);border-radius:32px;padding:44px;overflow:hidden}
 .about .mini-art{position:relative;aspect-ratio:1;max-width:300px;justify-self:center;width:100%;border-radius:50%;background:radial-gradient(circle at 50% 40%,#2a2014,#0c0906 70%);overflow:hidden;box-shadow:0 0 0 1px var(--line)}
-.about .mini-art canvas{position:absolute;inset:0;width:100%;height:100%}
+.about .mini-art img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
 .about h2{margin:4px 0 10px;font-size:32px}
 .about p{margin:0 0 12px;color:var(--muted);font-size:17px}
 .about .mail{display:inline-flex;margin-top:8px}
@@ -171,5 +172,5 @@ html[dir=ltr] .game-visual::after{background:linear-gradient(90deg,var(--g-bg),t
 img{height:auto}
 .art .seal{aspect-ratio:1;object-fit:contain}
 /* Keep the halftone portrait inside its arched frame */
-.art .dots{top:4%;right:0;bottom:auto;left:8%;width:92%;height:88%;border-radius:220px 220px 26px 26px;overflow:hidden}
+.art .dots{top:4%;right:0;bottom:auto;left:8%;width:92%;height:88%;border-radius:220px 220px 26px 26px;overflow:hidden;object-fit:contain;object-position:center bottom}
 html[dir=ltr] .art .dots{left:8%;right:auto}

@@ -10,44 +10,7 @@
     items.forEach(function(el){io.observe(el)});
   }else items.forEach(function(el){el.classList.add('in')});
 
-  // Golden halftone portrait: dots are stored as compact data and drawn live,
-  // so they stay crisp on every screen and can assemble with a small animation.
-  var A='0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_';
-  var dotCache={};
-  function loadDots(url){
-    if(!dotCache[url])dotCache[url]=fetch(url).then(function(r){return r.text()}).then(function(t){
-      var lines=t.split('\n'),hd=lines[0].split(','),cols=+hd[0],rows=+hd[1],dots=[];
-      for(var r=0;r<rows;r++){var s=lines[r+1]||'',c=0,i=0;
-        while(i<s.length){if(s[i]==='.'){c++;i++;continue}
-          var v=A.indexOf(s[i]),a=A.indexOf(s[i+1]);dots.push({c:c,r:r,rad:v&31,red:v>=32,a:a/63});c++;i+=2}}
-      return{cols:cols,rows:rows,dots:dots};
-    });
-    return dotCache[url];
-  }
-  function drawDots(cv){
-    loadDots(cv.dataset.dots).then(function(d){
-      var head=cv.dataset.crop==='head',dpr=Math.min(window.devicePixelRatio||1,2);
-      var w=cv.clientWidth,h=cv.clientHeight;if(!w||!h)return;
-      cv.width=w*dpr;cv.height=h*dpr;var ctx=cv.getContext('2d');ctx.scale(dpr,dpr);
-      var rows=head?Math.round(d.rows*.52):d.rows,cols=d.cols;
-      var cell=Math.min(w/(cols+.5),h/rows),ox=(w-cell*(cols+.5))/2,oy=head?cell*1.2:h-cell*rows;
-      var t0=performance.now(),dur=reduce?0:1600;
-      function frame(now){
-        var p=dur?Math.min(1,(now-t0)/dur):1;ctx.clearRect(0,0,w,h);
-        for(var i=0;i<d.dots.length;i++){var o=d.dots[i];if(o.r>=rows)continue;
-          var delay=(o.r/rows)*.55,q=Math.max(0,Math.min(1,(p-delay)/.45));if(!q)continue;
-          var L=o.rad/31,x=ox+(o.c+(o.r%2?.5:0)+.5)*cell,y=oy+(o.r+.5)*cell,rad=L*cell*.62*(.4+.6*q);
-          ctx.fillStyle=o.red?'rgba(200,70,64,'+(o.a*q)+')':'rgba('+Math.round(190+56*L)+','+Math.round(140+76*L)+','+Math.round(60+90*L)+','+(o.a*q)+')';
-          ctx.beginPath();ctx.arc(x,y,rad,0,6.2832);ctx.fill();}
-        if(p<1)requestAnimationFrame(frame);
-      }
-      requestAnimationFrame(frame);
-    }).catch(function(){});
-  }
-  var canvases=[].slice.call(document.querySelectorAll('canvas[data-dots]'));
-  canvases.forEach(drawDots);
-  var rt;window.addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(function(){reduce=true;canvases.forEach(drawDots)},200)});
-
+  // Portrait SVGs preserve the original dots without a fetch or canvas dependency.
   // Gentle parallax on the halftone portrait.
   var art=document.querySelector('.art .dots');
   if(art&&!reduce&&window.matchMedia('(pointer:fine)').matches){
